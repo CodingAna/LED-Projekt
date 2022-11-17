@@ -5,7 +5,7 @@ public class EineWeitereKlasse {
 	private BoardController controller;
 	
 	//Konstruktor
-		public EineWeitereKlasse(BoardController controller) {
-			this.controller = controller;
-		}
+	public EineWeitereKlasse(BoardController controller) {
+		this.controller = controller;
+	}
 }
