@@ -19,7 +19,7 @@ public class PhasmaMain {
 		
 		controller.setBackgroundColor(220/2, 220/2, 220/2);
 		controller.resetColors();
-		controller.setColor(0, 0, 255/2, 20/2, 147/2);
+		controller.setColor(0, 0, 255/2, 20/2, 147/2);;
 		controller.updateBoard();
 		
 	}
