@@ -8,4 +8,6 @@ public class EineWeitereKlasse {
 	public EineWeitereKlasse(BoardController controller) {
 		this.controller = controller;
 	}
+	
+	
 }

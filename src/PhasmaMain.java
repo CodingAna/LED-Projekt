@@ -2,16 +2,26 @@ import java.awt.event.KeyEvent;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
+import ledControl.gui.BoardKeyListener;
 
 public class PhasmaMain {
 
 	public static void main(String[] args) {
+		
+		//grey = 220
+		
 		//größeres Board falls gewünscht
 		BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
 		BoardController controller = BoardController.getBoardController();
 		
 		//Das Objekt in der anderen Klasse wird erstellt
 		EineWeitereKlasse ewk = new EineWeitereKlasse(controller);
+		
+		controller.setBackgroundColor(220/2, 220/2, 220/2);
+		controller.resetColors();
+		controller.setColor(0, 0, 255/2, 20/2, 147/2);
+		controller.updateBoard();
+		
 	}
 
 }
