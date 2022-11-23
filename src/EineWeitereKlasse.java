@@ -1,5 +1,13 @@
 import java.util.Iterator;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.lang.Math;
 import ledControl.BoardController;
 
@@ -14,9 +22,14 @@ public class EineWeitereKlasse {
 		colorMap = new HashMap<ColorCodes, Color>();
 		colorMap.put(ColorCodes.BLACK, new Color(0, 0, 0));
 		colorMap.put(ColorCodes.WHITE, new Color(255, 255, 255));
-		colorMap.put(ColorCodes.BLUE, new Color(0, 0, 255));
-		colorMap.put(ColorCodes.GREEN, new Color(0, 255, 0));
-		colorMap.put(ColorCodes.RED, new Color(255, 0, 0));
+		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 254));
+		colorMap.put(ColorCodes.GREEN, new Color(1, 127, 1));
+		colorMap.put(ColorCodes.RED, new Color(254, 0, 0));
+		colorMap.put(ColorCodes.PURPLE, new Color(1, 0, 128));
+		colorMap.put(ColorCodes.BROWN, new Color(129, 1, 2));
+		colorMap.put(ColorCodes.TEAL, new Color(0, 128, 129));
+		colorMap.put(ColorCodes.PINK, new Color(255, 105, 180));
+		colorMap.put(ColorCodes.GREY, new Color(128, 128, 128));
 	}
 	
 	public void startGame() {
@@ -68,31 +81,101 @@ public class EineWeitereKlasse {
 			mineField[y][x] = new Field(x, y, true);
 		}
 		
+		// TODO: If clicked on bomb: do a fancy explosion animation
+		
 		// Draw field
-		long start = System.currentTimeMillis();
-		int testCount = 100;
-		for (int test=0; test<testCount; test++) {
-			for (int y=0; y<20; y++) {
-				for (int x=0; x<20; x++) {
-					// This is just a test, normally they'd all start grey
-					Field field = mineField[y][x];
-					Color fieldColor = colorMap.get(ColorCodes.BLUE);
-					if (field.isBomb()) fieldColor = colorMap.get(ColorCodes.RED);
-					controllerSetColor(x, y, fieldColor);
-				}
+		for (int y=0; y<20; y++) {
+			for (int x=0; x<20; x++) {
+				Field field = mineField[y][x];
+				int adj = numberOfAdjacentBombs(field);
+				Color fieldColor = colorMap.get(ColorCodes.GREY);
+				
+				Color[] adjToColorArray = new Color[] {
+					colorMap.get(ColorCodes.WHITE), // if 0 adj; handle this, this is just a test
+					colorMap.get(ColorCodes.BLUE),
+					colorMap.get(ColorCodes.GREEN),
+					colorMap.get(ColorCodes.RED),
+					colorMap.get(ColorCodes.PURPLE),
+					colorMap.get(ColorCodes.BROWN),
+					colorMap.get(ColorCodes.TEAL),
+					colorMap.get(ColorCodes.PINK),
+					colorMap.get(ColorCodes.GREY), // let's just hope we'll never get 8 adjacent fields
+				};
+				fieldColor = adjToColorArray[adj];
+				
+				if (field.isBomb()) fieldColor = colorMap.get(ColorCodes.PINK);
+				
+				controllerSetColor(x, y, fieldColor);
 			}
-			controller.updateBoard();
 		}
-		long end = System.currentTimeMillis();
-		long diffTotal = end - start;
-		double diffMs = diffTotal / testCount;
-		System.out.println(diffMs);
-		System.out.println(1 / diffMs * 1000);
+		controller.updateBoard();
+		
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {}
+		
+		
+		try {
+			Clip clip = AudioSystem.getClip();
+	        AudioInputStream inputStream;
+			inputStream = AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream("/sounds/clip.wav"));
+	        //inputStream = AudioSystem.getAudioInputStream(new File("C:/Users/lukas/Music/clip.wav"));
+			clip.open(inputStream);
+	        clip.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(numberOfAdjacentBombs(4, 4));
 	}
 	
-	// TODO: Calculate stuff here
+	// Do we even need this method? idk idc
+	private Field[] getAdjacentFields(Field field) {
+		return getAdjacentFields(field.getX(), field.getY());
+	}
+	
+	private Field[] getAdjacentFields(int x, int y) {
+		Field[] adjacentFields = new Field[8];
+		int i = 0;
+		for (int dy=-1; dy<=1; dy++) {
+			for (int dx=-1; dx<=1; dx++) {
+				int newX = x + dx;
+				int newY = y + dy;
+				
+				if (newX == x && newY == y) continue;
+				if (newX < 0 || newX >= 20) continue;
+				if (newY < 0 || newY >= 20) continue;
+				
+				Field currentField = mineField[newY][newX];
+				adjacentFields[i] = currentField;
+				i++;
+			}
+		}
+		return adjacentFields;
+	}
+	
+	private int numberOfAdjacentBombs(Field field) {
+		return numberOfAdjacentBombs(field.getX(), field.getY());
+	}
+	
 	private int numberOfAdjacentBombs(int x, int y) {
-		return 0;
+		int count = 0;
+		for (int dy=-1; dy<=1; dy++) {
+			for (int dx=-1; dx<=1; dx++) {
+				int newX = x + dx;
+				int newY = y + dy;
+				
+				// First check: If position is same as parameter skip because it's technically not adjacent?
+				if (newX == x && newY == y) continue;
+				if (newX < 0 || newX >= 20) continue;
+				if (newY < 0 || newY >= 20) continue;
+				
+				Field currentField = mineField[newY][newX];
+				if (currentField.isBomb()) count++;
+			}
+		}
+		return count;
 	}
 	
 	private void controllerSetColor(int x, int y, Color color) {
