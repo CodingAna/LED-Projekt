@@ -115,6 +115,8 @@ public class EineWeitereKlasse {
 		} catch (Exception e) {}
 		
 		
+		// TODO: HashMap<KeyCode(WASD), KeyEvent>
+		
 		try {
 			Clip clip = AudioSystem.getClip();
 	        AudioInputStream inputStream;
