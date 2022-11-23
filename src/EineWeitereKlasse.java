@@ -115,11 +115,12 @@ public class EineWeitereKlasse {
 		} catch (Exception e) {}
 		
 		
+		// TODO: HashMap<KeyCode(WASD), KeyEvent>
+		
 		try {
 			Clip clip = AudioSystem.getClip();
 	        AudioInputStream inputStream;
-			inputStream = AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream("/sounds/clip.wav"));
-	        //inputStream = AudioSystem.getAudioInputStream(new File("C:/Users/lukas/Music/clip.wav"));
+			inputStream = AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream("/bomb_explosion.wav"));
 			clip.open(inputStream);
 	        clip.start();
 		} catch (Exception e) {
