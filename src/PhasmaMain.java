@@ -16,11 +16,13 @@ public class PhasmaMain {
 		
 		//Das Objekt in der anderen Klasse wird erstellt
 		EineWeitereKlasse ewk = new EineWeitereKlasse(controller);
-		
+		Player p1 = new Player(controller);
+
 		controller.setBackgroundColor(220/2, 220/2, 220/2);
 		controller.resetColors();
 		
 		ewk.startGame();
+		p1.startListening();
 		
 	}
 
