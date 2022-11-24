@@ -82,7 +82,9 @@ public class Player {
 					
 				}
 				
-				System.out.println("x = " + x + ", y = " + y);
+				System.out.println(event.getKeyCode());
+				//Leertaste = 32 für Flaggen
+				//Enter = 10 für Bomben
 				
 			}
 		}
