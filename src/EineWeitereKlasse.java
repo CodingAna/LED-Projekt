@@ -193,4 +193,9 @@ public class EineWeitereKlasse {
 		return false;
 	}
 	
+	private void triggerMovement(int x, int y)
+	{
+		//Playermovement anzeigen aufm Board
+	}
+	
 }
