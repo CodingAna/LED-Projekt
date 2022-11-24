@@ -14,7 +14,7 @@ import ledControl.BoardController;
 public class EineWeitereKlasse {
 	
 	private BoardController controller;
-	private Field[][] mineField = new Field[20][20];
+	public Field[][] mineField = new Field[20][20];
 	private HashMap<ColorCodes, Color> colorMap;
 	private int [] player = new int [] {10, 10, 10};
 	
@@ -118,7 +118,7 @@ public class EineWeitereKlasse {
 		
 		// TODO: HashMap<KeyCode(WASD), KeyEvent>
 		
-		try {
+		/*try {
 			Clip clip = AudioSystem.getClip();
 	        AudioInputStream inputStream;
 			inputStream = AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream("/bomb_explosion.wav"));
@@ -127,7 +127,7 @@ public class EineWeitereKlasse {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		System.out.println(numberOfAdjacentBombs(4, 4));
 	}

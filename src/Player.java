@@ -36,11 +36,19 @@ public class Player {
 			//event.getID() = 401 für gedrückt
 			//event.getID() = 402 für loslassen
 			
-			
+						
 			if (event != null && event.getID() == 401)
 			{
 				switch(event.getKeyCode())
 				{
+				case 10:
+					//Aufdecken
+					break;
+				case 32:
+					if(!ewk.mineField[x][y].isFlagged())
+						ewk.mineField[x][y].setFlag(true);
+					//Flagge
+					break;
 				case 37:
 					if (x > 0)
 					{
@@ -56,14 +64,14 @@ public class Player {
 					}
 					break;
 				case 39:
-					if (x < 20)
+					if (x < 19)
 					{
 						x++;
 						moved = true;
 					}
 					break;
 				case 40:
-					if (y < 20)
+					if (y < 19)
 					{
 						y++;
 						moved = true;
@@ -79,13 +87,8 @@ public class Player {
 					moved = false;
 					oldX = x;
 					oldY = y;
-					
-				}
-				
-				System.out.println(event.getKeyCode());
-				//Leertaste = 32 für Flaggen
-				//Enter = 10 für Bomben
-				
+					System.out.println("Flagge: " + ewk.mineField[x][y].isFlagged());
+				}				
 			}
 		}
 	}
