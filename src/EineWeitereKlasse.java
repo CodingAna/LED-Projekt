@@ -16,19 +16,20 @@ public class EineWeitereKlasse {
 	private BoardController controller;
 	private Field[][] mineField = new Field[20][20];
 	private HashMap<ColorCodes, Color> colorMap;
+	private int [] player = new int [] {10, 10, 10};
 	
 	public EineWeitereKlasse(BoardController controller) {
 		this.controller = controller;
 		colorMap = new HashMap<ColorCodes, Color>();
 		colorMap.put(ColorCodes.BLACK, new Color(0, 0, 0));
-		colorMap.put(ColorCodes.WHITE, new Color(255, 255, 255));
-		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 254));
+		colorMap.put(ColorCodes.WHITE, new Color(235, 235, 235));
+		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 234));
 		colorMap.put(ColorCodes.GREEN, new Color(1, 127, 1));
-		colorMap.put(ColorCodes.RED, new Color(254, 0, 0));
+		colorMap.put(ColorCodes.RED, new Color(234, 0, 0));
 		colorMap.put(ColorCodes.PURPLE, new Color(1, 0, 128));
 		colorMap.put(ColorCodes.BROWN, new Color(129, 1, 2));
 		colorMap.put(ColorCodes.TEAL, new Color(0, 128, 129));
-		colorMap.put(ColorCodes.PINK, new Color(255, 105, 180));
+		colorMap.put(ColorCodes.PINK, new Color(235, 85, 160));
 		colorMap.put(ColorCodes.GREY, new Color(128, 128, 128));
 	}
 	
@@ -193,8 +194,11 @@ public class EineWeitereKlasse {
 		return false;
 	}
 	
-	private void triggerMovement(int x, int y)
+	public void triggerMovement(int x, int y, int oldX, int oldY)
 	{
+		controller.addColor(x, y, player);
+		controller.addColor(oldX, oldY, -player[0], -player[1], -player[2]);
+		controller.updateBoard();
 		//Playermovement anzeigen aufm Board
 	}
 	

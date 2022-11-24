@@ -16,6 +16,8 @@ public class Player {
 	
 	private int x = 0;
 	private int y = 0;
+	private int oldX = 0;
+	private int oldY = 0;
 	
 	public Player(BoardController controller, EineWeitereKlasse ewk) 
 	{
@@ -23,6 +25,7 @@ public class Player {
 		this.controller = controller;
 		this.buffer = KeyBuffer.getKeyBuffer();
 		this.listener = new BoardKeyListener(buffer);
+		this.moved = false;
 	}
 	
 	public void startListening()
@@ -69,6 +72,16 @@ public class Player {
 				default:
 					break;
 				}
+				
+				if (moved)
+				{
+					ewk.triggerMovement(x, y, oldX, oldY);
+					moved = false;
+					oldX = x;
+					oldY = y;
+					
+				}
+				
 				System.out.println("x = " + x + ", y = " + y);
 				
 			}
