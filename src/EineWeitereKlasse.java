@@ -24,7 +24,7 @@ public class EineWeitereKlasse {
 		colorMap.put(ColorCodes.BLACK, new Color(0, 0, 0));
 		colorMap.put(ColorCodes.WHITE, new Color(235, 235, 235));
 		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 234));
-		colorMap.put(ColorCodes.GREEN, new Color(1, 127, 1));
+		colorMap.put(ColorCodes.GREEN, new Color(1, 235, 1));
 		colorMap.put(ColorCodes.RED, new Color(234, 0, 0));
 		colorMap.put(ColorCodes.PURPLE, new Color(1, 0, 128));
 		colorMap.put(ColorCodes.BROWN, new Color(129, 1, 2));
@@ -51,7 +51,8 @@ public class EineWeitereKlasse {
 		 * ]
 		 */
 		
-		int mineCount = 64;
+		//int mineCount = 64;
+		int mineCount = 0;
 		
 		// Generate empty (no bombs) 20x20 field
 		for (int y=0; y<20; y++)
@@ -89,22 +90,10 @@ public class EineWeitereKlasse {
 			for (int x=0; x<20; x++) {
 				Field field = mineField[y][x];
 				int adj = numberOfAdjacentBombs(field);
+				mineField[x][y].setAdj(adj);
 				Color fieldColor = colorMap.get(ColorCodes.GREY);
 				
-				Color[] adjToColorArray = new Color[] {
-					colorMap.get(ColorCodes.WHITE), // if 0 adj; handle this, this is just a test
-					colorMap.get(ColorCodes.BLUE),
-					colorMap.get(ColorCodes.GREEN),
-					colorMap.get(ColorCodes.RED),
-					colorMap.get(ColorCodes.PURPLE),
-					colorMap.get(ColorCodes.BROWN),
-					colorMap.get(ColorCodes.TEAL),
-					colorMap.get(ColorCodes.PINK),
-					colorMap.get(ColorCodes.GREY), // let's just hope we'll never get 8 adjacent fields
-				};
-				fieldColor = adjToColorArray[adj];
-				
-				if (field.isBomb()) fieldColor = colorMap.get(ColorCodes.PINK);
+				//if (field.isBomb()) fieldColor = colorMap.get(ColorCodes.PINK);
 				
 				controllerSetColor(x, y, fieldColor);
 			}
@@ -114,9 +103,6 @@ public class EineWeitereKlasse {
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {}
-		
-		
-		// TODO: HashMap<KeyCode(WASD), KeyEvent>
 		
 		/*try {
 			Clip clip = AudioSystem.getClip();
@@ -161,7 +147,7 @@ public class EineWeitereKlasse {
 		return numberOfAdjacentBombs(field.getX(), field.getY());
 	}
 	
-	private int numberOfAdjacentBombs(int x, int y) {
+	public int numberOfAdjacentBombs(int x, int y) {
 		int count = 0;
 		for (int dy=-1; dy<=1; dy++) {
 			for (int dx=-1; dx<=1; dx++) {
@@ -201,5 +187,26 @@ public class EineWeitereKlasse {
 		controller.updateBoard();
 		//Playermovement anzeigen aufm Board
 	}
+	
+	public void coloring(int x, int y)
+	{
+		Color fieldColor;
+		
+		Color[] adjToColorArray = new Color[] {
+				colorMap.get(ColorCodes.WHITE), // if 0 adj; handle this, this is just a test
+				colorMap.get(ColorCodes.BLUE),
+				colorMap.get(ColorCodes.GREEN),
+				colorMap.get(ColorCodes.RED),
+				colorMap.get(ColorCodes.PURPLE),
+				colorMap.get(ColorCodes.BROWN),
+				colorMap.get(ColorCodes.TEAL),
+				colorMap.get(ColorCodes.PINK),
+				colorMap.get(ColorCodes.GREY), // let's just hope we'll never get 8 adjacent fields
+		};
+		
+		fieldColor = adjToColorArray[mineField[x][y].getAdj()];
+		controllerSetColor(x, y, fieldColor);		
+		controller.updateBoard();
+		}
 	
 }

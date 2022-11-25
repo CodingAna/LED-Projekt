@@ -3,6 +3,7 @@ public class Field {
 	
 	private int x;
 	private int y;
+	private int adj;
 	private boolean isBomb;
 	private boolean isFlagged;
 	private boolean revealed;
@@ -15,22 +16,28 @@ public class Field {
 	}
 	
 	// Set Field to be revealed and return if the player died to the bomb
-	public boolean reveal() {
+	public void reveal() {
 		// Return true if isFlagged to prevent missclicks?
-		revealed = true;
-		return !isBomb;
+		if(!isFlagged)
+			revealed = true;
 	}
 	
 	// Getter
 	public boolean isRevealed() {return revealed;}
 	public int getX() {return x;}
 	public int getY() {return y;}
+	public int getAdj() {return adj;}
 	public boolean isFlagged() {return isFlagged;}
 	public boolean isBomb() {return isBomb;}
 	
 	// Setter
 	public void setFlag(boolean isFlagged) {
-		this.isFlagged = isFlagged;
+		if(!revealed)
+			this.isFlagged = isFlagged;
 	}
 	
+	public void setAdj(int adj)
+	{
+		this.adj = adj;
+	}
 }

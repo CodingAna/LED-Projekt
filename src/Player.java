@@ -42,11 +42,29 @@ public class Player {
 				switch(event.getKeyCode())
 				{
 				case 10:
+					if(!ewk.mineField[x][y].isRevealed() && !ewk.mineField[x][y].isFlagged())
+					{
+						ewk.mineField[x][y].reveal();
+						if(!ewk.mineField[x][y].isBomb())
+						{
+							ewk.coloring(x, y);
+							if(ewk.mineField[x][y].getAdj() == 0)
+							{
+								
+							}
+						}
+					}
+					
 					//Aufdecken
 					break;
 				case 32:
 					if(!ewk.mineField[x][y].isFlagged())
 						ewk.mineField[x][y].setFlag(true);
+					else
+					{
+						if (ewk.mineField[x][y].isFlagged())
+							ewk.mineField[x][y].setFlag(false);
+					}
 					//Flagge
 					break;
 				case 37:
@@ -87,7 +105,7 @@ public class Player {
 					moved = false;
 					oldX = x;
 					oldY = y;
-					System.out.println("Flagge: " + ewk.mineField[x][y].isFlagged());
+					System.out.println("Flagge: " + ewk.mineField[x][y].isFlagged() + ", Revealed: " + ewk.mineField[x][y].isRevealed() + ", Bombs: " + ewk.mineField[x][y].getAdj() + ", isBomb: " + ewk.mineField[x][y].isBomb());
 				}				
 			}
 		}
