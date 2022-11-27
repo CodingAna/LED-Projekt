@@ -34,25 +34,18 @@ public class Player {
 	public void startListening()
 	{
 		while (true) {
-
 			event = buffer.pop();
-			//event.getID() = 401 für gedrückt
-			//event.getID() = 402 für loslassen
-			
-						
-			if (event != null && event.getID() == 401)
+			if (event != null && event.getID() == 401) //event.getID() = 401 for button presses
 			{
 				switch(event.getKeyCode())
 				{
-				case 10:
+				case 10: // revealing current field
 					if(!ewk.mineField[x][y].isRevealed() && !ewk.mineField[x][y].isFlagged())
 					{
 						ewk.coloring(x, y, 0);
 					}
-					
-					//Aufdecken
 					break;
-				case 32:
+				case 32: //setting flag on current field
 					if(!ewk.mineField[x][y].isFlagged())
 						ewk.mineField[x][y].setFlag(true);
 					else
@@ -60,7 +53,6 @@ public class Player {
 						if (ewk.mineField[x][y].isFlagged())
 							ewk.mineField[x][y].setFlag(false);
 					}
-					//Flagge
 					break;
 				case 37:
 					if (x > 0)
