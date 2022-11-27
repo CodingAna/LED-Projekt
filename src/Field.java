@@ -18,7 +18,7 @@ public class Field {
 	// Set Field to be revealed and return if the player died to the bomb
 	public void reveal() {
 		// Return true if isFlagged to prevent missclicks?
-		if(!isFlagged)
+		if(!isFlagged && !revealed)
 			revealed = true;
 	}
 	

@@ -28,6 +28,9 @@ public class Player {
 		this.moved = false;
 	}
 	
+	public int getX() {return x;}
+	public int getY() {return y;}
+	
 	public void startListening()
 	{
 		while (true) {
@@ -44,15 +47,7 @@ public class Player {
 				case 10:
 					if(!ewk.mineField[x][y].isRevealed() && !ewk.mineField[x][y].isFlagged())
 					{
-						ewk.mineField[x][y].reveal();
-						if(!ewk.mineField[x][y].isBomb())
-						{
-							ewk.coloring(x, y);
-							if(ewk.mineField[x][y].getAdj() == 0)
-							{
-								
-							}
-						}
+						ewk.coloring(x, y, 0);
 					}
 					
 					//Aufdecken
