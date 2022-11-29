@@ -93,20 +93,18 @@ public class EineWeitereKlasse {
 		}
 		controller.updateBoard();
 
-		try {
-			Thread.sleep(1000);
-		} catch (Exception e) {
-		}
-
-		/*
-		 * try { Clip clip = AudioSystem.getClip(); AudioInputStream inputStream;
-		 * inputStream =
-		 * AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream(
-		 * "/bomb_explosion.wav")); clip.open(inputStream); clip.start(); } catch
-		 * (Exception e) { // TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-
 		//System.out.println(numberOfAdjacentBombs(4, 4));
+	}
+	
+	private void playAudio(String resourceName) {
+		// https://stackoverflow.com/questions/26305/how-can-i-play-sound-in-java
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream inputStream;
+			inputStream = AudioSystem.getAudioInputStream(PhasmaMain.class.getResourceAsStream("/" + resourceName + ".wav"));
+			clip.open(inputStream);
+			clip.start();
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 
 	// Do we even need this method? idk idc
