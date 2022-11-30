@@ -27,8 +27,8 @@ public class EineWeitereKlasse {
 		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 234));
 		colorMap.put(ColorCodes.GREEN, new Color(1, 235, 1));
 		colorMap.put(ColorCodes.RED, new Color(234, 0, 0));
-		colorMap.put(ColorCodes.PURPLE, new Color(1, 0, 128));
-		colorMap.put(ColorCodes.BROWN, new Color(129, 1, 2));
+		colorMap.put(ColorCodes.PURPLE, new Color(200, 0, 200));
+		colorMap.put(ColorCodes.BROWN, new Color(186, 98, 31));
 		colorMap.put(ColorCodes.TEAL, new Color(0, 128, 129));
 		colorMap.put(ColorCodes.PINK, new Color(235, 85, 160));
 		colorMap.put(ColorCodes.GREY, new Color(128, 128, 128));
@@ -44,7 +44,7 @@ public class EineWeitereKlasse {
 		 * #], [# # # # #] ]
 		 */
 
-		int mineCount = 64;
+		int mineCount = 100;
 
 		// Generate empty (no bombs) 20x20 field
 		for (int y = 0; y < 20; y++)
