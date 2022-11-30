@@ -46,12 +46,20 @@ public class Player {
 					}
 					break;
 				case 32: //setting flag on current field
-					if(!ewk.mineField[x][y].isFlagged())
+					if(!ewk.mineField[x][y].isFlagged() && !ewk.mineField[x][y].isRevealed())
+					{
 						ewk.mineField[x][y].setFlag(true);
+						ewk.controllerSetColor(x, y, ewk.getColor(ColorCodes.YELLOW));
+						controller.updateBoard();
+					}
 					else
 					{
-						if (ewk.mineField[x][y].isFlagged())
+						if (ewk.mineField[x][y].isFlagged() && !ewk.mineField[x][y].isRevealed())
+						{
 							ewk.mineField[x][y].setFlag(false);
+							ewk.controllerSetColor(x, y, ewk.getColor(ColorCodes.GREY));
+							controller.updateBoard();
+						}
 					}
 					break;
 				case 37:

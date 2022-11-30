@@ -17,13 +17,14 @@ public class EineWeitereKlasse {
 	public Field[][] mineField = new Field[20][20];
 	private HashMap<ColorCodes, Color> colorMap;
 	private Player player;
-	private int[] highlight = new int []{10, 10, 10};
+	private int[] highlight = new int []{10, 10, 10}; //Highlighting where Player is
 
 	public EineWeitereKlasse(BoardController controller) {
 		this.controller = controller;
 		colorMap = new HashMap<ColorCodes, Color>();
 		colorMap.put(ColorCodes.BLACK, new Color(0, 0, 0));
 		colorMap.put(ColorCodes.WHITE, new Color(235, 235, 235));
+		colorMap.put(ColorCodes.YELLOW, new Color(235, 235, 31));
 		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 234));
 		colorMap.put(ColorCodes.GREEN, new Color(1, 235, 1));
 		colorMap.put(ColorCodes.RED, new Color(234, 0, 0));
@@ -163,7 +164,7 @@ public class EineWeitereKlasse {
 		return count;
 	}
 
-	private void controllerSetColor(int x, int y, Color color) {
+	public void controllerSetColor(int x, int y, Color color) {
 		if(player.getX() != x || player.getY() != y)
 			controller.setColor(x, y, color.red / 2, color.green / 2, color.blue / 2);
 		else
@@ -222,5 +223,10 @@ public class EineWeitereKlasse {
 		if(count == 0)
 			controller.updateBoard();
 		mineField[x][y].reveal();
+	}
+	
+	public Color getColor (ColorCodes colorName)
+	{
+		return colorMap.get(colorName);
 	}
 }
