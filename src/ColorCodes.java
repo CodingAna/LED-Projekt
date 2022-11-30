@@ -10,7 +10,7 @@ public enum ColorCodes {
 	TEAL, // Six
 	PINK, // Seven
 	GREY, // Eight
-	LIGHT_BLUE,
+	LIGHT_BLUE, // Light Colors = Player
 	LIGHT_RED,
 	LIGHT_PURPLE,
 	LIGHT_BROWN,
