@@ -13,6 +13,7 @@ public class Player {
 	private EineWeitereKlasse ewk;
 
 	private boolean moved;
+	private boolean died;
 	
 	private int x = 0;
 	private int y = 0;
@@ -26,6 +27,7 @@ public class Player {
 		this.buffer = KeyBuffer.getKeyBuffer();
 		this.listener = new BoardKeyListener(buffer);
 		this.moved = false;
+		this.died = false;
 	}
 	
 	public int getX() {return x;}
@@ -33,13 +35,16 @@ public class Player {
 	
 	public void startListening()
 	{
-		while (true) {
+		while (!died) {
 			event = buffer.pop();
 			if (event != null && event.getID() == 401) //event.getID() = 401 for button presses
 			{
 				switch(event.getKeyCode())
 				{
 				case 10: // revealing current field
+					if (ewk.mineField[x][y].isBomb()) {
+						this.died = true;
+					}
 					if(!ewk.mineField[x][y].isRevealed() && !ewk.mineField[x][y].isFlagged())
 					{
 						ewk.coloring(x, y, 0);
@@ -104,5 +109,147 @@ public class Player {
 				}				
 			}
 		}
+		// The player died and while loop ended
+		long length;
+		length = ewk.playAudio("bomb_explosion");
+		
+		// Make a RED / WHITE flashing animation
+		for (int switching=0; switching<6; switching++) {
+			for (int y=0; y<20; y++) {
+				for (int x=0; x<20; x++) {
+					ewk.controllerSetColor(x, y, ((switching % 2 == 0) ? ColorCodes.RED : ColorCodes.WHITE).getColor());
+				}				
+			}
+			controller.updateBoard();
+			controller.sleep(500);
+		}
+		
+		length = (int)(length / 1000) - (500 * 6);
+		if (length > 0) controller.sleep((int)length);
+		length = ewk.playAudio("sad_trombone");
+		
+		// Reset board to all BLACK
+		for (int y=0; y<20; y++) {
+			for (int x=0; x<20; x++) {
+				ewk.controllerSetColor(x, y, ColorCodes.BLACK.getColor());
+			}				
+		}
+		controller.updateBoard();
+		
+		controller.sleep((int)(length / 1000));
+		ewk.playAudio("sad_violin_airhorn");
+		
+		boolean flashing = true;
+		int count = 0;
+		while (true) {
+			// Left Eye
+			for (int y=0; y<2; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+5, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+			// Right Eye
+			for (int y=0; y<2; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+12, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			// Mouth Left Lower
+			for (int y=0; y<4; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+3, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			// Mouth Left Middle
+			for (int y=0; y<2; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+4, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			// Mouth Middle
+			for (int y=0; y<2; y++)
+				for (int x=0; x<7; x++)
+					ewk.controllerSetColor(x+6, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			// Mouth Right Middle
+			for (int y=0; y<2; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+13, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			// Mouth Right Lower
+			for (int y=0; y<4; y++)
+				for (int x=0; x<2; x++)
+					ewk.controllerSetColor(x+14, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			
+			controller.updateBoard();
+			controller.sleep(840);
+			
+			flashing = !flashing;
+			count++;
+			if (count > 24) break;
+		}
+		
+		flashing = true;
+		
+		ewk.playAudio("mlg_airhorn");
+		for (int i=0; i<2; i++) {
+			laughingSmiley(flashing);
+			flashing = !flashing;
+			controller.sleep(700);
+		}
+		
+		ewk.playAudio("mlg_triple");
+		for (int i=0; i<7; i++) {
+			laughingSmiley(flashing);
+			flashing = !flashing;
+			controller.sleep(400);
+		}
+		
+		ewk.playAudio("mlg_cancan");
+		while (true) {
+			laughingSmiley(flashing);
+			flashing = !flashing;
+			controller.sleep(150);
+		}
+	}
+	
+	private void laughingSmiley(boolean flashing) {
+		// Whole background
+		for (int y=0; y<20; y++)
+			for (int x=0; x<20; x++)
+				ewk.controllerSetColor(x, y, (flashing ? ColorCodes.BLACK : ColorCodes.WHITE).getColor());
+		
+		// Left Eye
+		for (int y=0; y<2; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+5, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+	
+		// Right Eye
+		for (int y=0; y<2; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+12, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		// Mouth Left Lower
+		for (int y=0; y<4; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+3, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		// Mouth Left Middle
+		for (int y=0; y<2; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+4, y+14, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		// Mouth Middle
+		for (int y=0; y<2; y++)
+			for (int x=0; x<7; x++)
+				ewk.controllerSetColor(x+6, y+15, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		// Mouth Right Middle
+		for (int y=0; y<2; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+13, y+14, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		// Mouth Right Lower
+		for (int y=0; y<4; y++)
+			for (int x=0; x<2; x++)
+				ewk.controllerSetColor(x+14, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+		
+		controller.updateBoard();
 	}
 }
