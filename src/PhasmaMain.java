@@ -1,8 +1,5 @@
-import java.awt.event.KeyEvent;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
-import ledControl.gui.KeyBuffer;
-import ledControl.gui.BoardKeyListener;
 
 public class PhasmaMain {
 
