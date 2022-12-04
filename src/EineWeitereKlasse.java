@@ -1,13 +1,7 @@
-import java.util.Iterator;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
-import java.util.HashMap;
-import java.io.File;
-import java.io.IOException;
 import java.lang.Math;
 import ledControl.BoardController;
 
@@ -15,24 +9,11 @@ public class EineWeitereKlasse {
 
 	private BoardController controller;
 	public Field[][] mineField = new Field[20][20];
-	private HashMap<ColorCodes, Color> colorMap;
 	private Player player;
 	private int[] highlight = new int []{10, 10, 10}; //Highlighting where Player is
 
 	public EineWeitereKlasse(BoardController controller) {
 		this.controller = controller;
-		colorMap = new HashMap<ColorCodes, Color>();
-		colorMap.put(ColorCodes.BLACK, new Color(0, 0, 0));
-		colorMap.put(ColorCodes.WHITE, new Color(235, 235, 235));
-		colorMap.put(ColorCodes.YELLOW, new Color(235, 235, 31));
-		colorMap.put(ColorCodes.BLUE, new Color(1, 0, 234));
-		colorMap.put(ColorCodes.GREEN, new Color(1, 235, 1));
-		colorMap.put(ColorCodes.RED, new Color(234, 0, 0));
-		colorMap.put(ColorCodes.PURPLE, new Color(200, 0, 200));
-		colorMap.put(ColorCodes.BROWN, new Color(186, 98, 31));
-		colorMap.put(ColorCodes.TEAL, new Color(0, 128, 129));
-		colorMap.put(ColorCodes.PINK, new Color(235, 85, 160));
-		colorMap.put(ColorCodes.GREY, new Color(128, 128, 128));
 	}
 	
 	public void setPlayer(Player player) {this.player = player;}
@@ -85,7 +66,7 @@ public class EineWeitereKlasse {
 				Field field = mineField[y][x];
 				int adj = numberOfAdjacentBombs(field);
 				field.setAdj(adj);
-				Color fieldColor = colorMap.get(ColorCodes.GREY);
+				Color fieldColor = ColorCodes.GREY.getColor();
 
 				//if (field.isBomb()) fieldColor = colorMap.get(ColorCodes.PINK);
 
@@ -191,21 +172,19 @@ public class EineWeitereKlasse {
 	}
 
 	public void coloring(int x, int y, int count) {
-		Color fieldColor;
+		Color[] adjacentColors = new Color[] { 
+				ColorCodes.WHITE.getColor(), // if 0 adj; handle this, this is just a test
+				ColorCodes.BLUE.getColor(), 
+				ColorCodes.GREEN.getColor(), 
+				ColorCodes.RED.getColor(),
+				ColorCodes.PURPLE.getColor(), 
+				ColorCodes.BROWN.getColor(), 
+				ColorCodes.TEAL.getColor(),
+				ColorCodes.PINK.getColor(), 
+				ColorCodes.GREY.getColor(), // let's just hope we'll never get 8 adjacent fields
+			};
 
-		Color[] adjToColorArray = new Color[] { 
-				colorMap.get(ColorCodes.WHITE), // if 0 adj; handle this, this is just a test
-				colorMap.get(ColorCodes.BLUE), 
-				colorMap.get(ColorCodes.GREEN), 
-				colorMap.get(ColorCodes.RED),
-				colorMap.get(ColorCodes.PURPLE), 
-				colorMap.get(ColorCodes.BROWN), 
-				colorMap.get(ColorCodes.TEAL),
-				colorMap.get(ColorCodes.PINK), 
-				colorMap.get(ColorCodes.GREY), // let's just hope we'll never get 8 adjacent fields
-		};
-
-		fieldColor = adjToColorArray[mineField[x][y].getAdj()];
+		Color fieldColor = adjacentColors[mineField[x][y].getAdj()];
 		controllerSetColor(x, y, fieldColor);
 		
 		if (mineField[x][y].getAdj() == 0 && !mineField[x][y].isRevealed()) {
@@ -223,10 +202,5 @@ public class EineWeitereKlasse {
 		if(count == 0)
 			controller.updateBoard();
 		mineField[x][y].reveal();
-	}
-	
-	public Color getColor (ColorCodes colorName)
-	{
-		return colorMap.get(colorName);
 	}
 }

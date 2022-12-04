@@ -49,7 +49,7 @@ public class Player {
 					if(!ewk.mineField[x][y].isFlagged() && !ewk.mineField[x][y].isRevealed())
 					{
 						ewk.mineField[x][y].setFlag(true);
-						ewk.controllerSetColor(x, y, ewk.getColor(ColorCodes.YELLOW));
+						ewk.controllerSetColor(x, y, ColorCodes.YELLOW.getColor());
 						controller.updateBoard();
 					}
 					else
@@ -57,7 +57,7 @@ public class Player {
 						if (ewk.mineField[x][y].isFlagged() && !ewk.mineField[x][y].isRevealed())
 						{
 							ewk.mineField[x][y].setFlag(false);
-							ewk.controllerSetColor(x, y, ewk.getColor(ColorCodes.GREY));
+							ewk.controllerSetColor(x, y, ColorCodes.GREY.getColor());
 							controller.updateBoard();
 						}
 					}
