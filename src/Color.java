@@ -9,4 +9,8 @@ public class Color {
 		this.green = green;
 		this.blue = blue;
 	}
+
+	public int[] toArray() {
+		return new int[] {red, green, blue};
+	}
 }
