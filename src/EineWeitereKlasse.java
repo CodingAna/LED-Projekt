@@ -78,7 +78,7 @@ public class EineWeitereKlasse {
 		//System.out.println(numberOfAdjacentBombs(4, 4));
 	}
 	
-	private void playAudio(String resourceName) {
+	public void playAudio(String resourceName) {
 		// https://stackoverflow.com/questions/26305/how-can-i-play-sound-in-java
 		try {
 			Clip clip = AudioSystem.getClip();
