@@ -42,7 +42,7 @@ public class Player {
 			{
 				switch(event.getKeyCode())
 				{
-				case 10: // revealing current field
+				case KeyEvent.VK_ENTER: // revealing current field
 					if (handler.mineField[x][y].isBomb()) {
 						this.died = true;
 					}
@@ -52,7 +52,7 @@ public class Player {
 						handler.coloring(x, y, 0);
 					}
 					break;
-				case 32: //setting flag on current field
+				case KeyEvent.VK_SPACE: //setting flag on current field
 					if(!handler.mineField[x][y].isFlagged() && !handler.mineField[x][y].isRevealed())
 					{
 						handler.mineField[x][y].setFlag(true);
@@ -69,28 +69,28 @@ public class Player {
 						}
 					}
 					break;
-				case 37:
+				case KeyEvent.VK_LEFT:
 					if (x > 0)
 					{
 						x--;
 						moved = true;
 					}
 					break;
-				case 38:
+				case KeyEvent.VK_UP:
 					if (y > 0)
 					{
 						y--;
 						moved = true;
 					}
 					break;
-				case 39:
+				case KeyEvent.VK_RIGHT:
 					if (x < 19)
 					{
 						x++;
 						moved = true;
 					}
 					break;
-				case 40:
+				case KeyEvent.VK_DOWN:
 					if (y < 19)
 					{
 						y++;
