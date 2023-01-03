@@ -48,6 +48,7 @@ public class Player {
 					}
 					if(!handler.mineField[x][y].isRevealed() && !handler.mineField[x][y].isFlagged())
 					{
+						turns++;
 						if (turns == 1) handler.startGame(x, y);
 						handler.coloring(x, y, 0);
 					}
