@@ -12,9 +12,14 @@ public class GameHandler {
 	private Player player;
 	private int[] highlight = new int []{10, 10, 10}; //Highlighting where Player is
 	public int uncoveredFields;
+	private final int bombCount = 64;
 
 	public GameHandler(BoardController controller) {
 		this.controller = controller;
+	}
+	
+	public boolean checkWin() {
+		return uncoveredFields == (400 - bombCount);
 	}
 	
 	public void prepareGame() {
@@ -74,7 +79,7 @@ public class GameHandler {
 	public void startGame(int playerStartPosition) {
 		// This being commented requires Main to call prepareGame()
 		// prepareGame();
-		fillBombs(64, playerStartPosition);
+		fillBombs(bombCount, playerStartPosition);
 		updateAdjacents();
 	}
 	
