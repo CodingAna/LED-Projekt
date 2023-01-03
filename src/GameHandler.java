@@ -16,15 +16,71 @@ public class GameHandler {
 		this.controller = controller;
 	}
 	
+	public void prepareGame() {
+		// Generate empty (no bombs) 20x20 field
+		for (int y = 0; y < 20; y++)
+			for (int x = 0; x < 20; x++) {
+				mineField[y][x] = new Field(x, y, false);
+				Color fieldColor = ColorCodes.GREY.getColor();
+				controllerSetColor(y, x, fieldColor);
+			}
+		controller.updateBoard();
+	}
+	
+	private void fillBombs(int bombCount, int playerStartPosition) {
+		// Generate bombCount bombs in the 20x20 field - usually 64
+		int[] randomPositions = new int[bombCount];
+
+		for (int i = 0; i < bombCount; i++) {
+			int rand = getRandomFromTo(0, 399);
+			while (arrayContains(randomPositions, rand) || rand == playerStartPosition)
+				rand = getRandomFromTo(0, 399);
+			randomPositions[i] = rand;
+		}
+
+		for (int i = 0; i < bombCount; i++) {
+			// Convert position (0-399) to x and y
+			int pos = randomPositions[i];
+			int x = pos % 20;
+			int y = (int) (pos / 20);
+			// Umgekehrt ist
+			// pos = y * 20 + x
+
+			// Overwrite field at given x and y with a bomb field
+			mineField[y][x] = new Field(x, y, true);
+		}
+	}
+	
+	private void updateAdjacents() {
+		for (int y = 0; y < 20; y++) {
+			for (int x = 0; x < 20; x++) {
+				Field field = mineField[y][x];
+				
+				int adj = numberOfAdjacentBombs(field);
+				field.setAdj(adj);
+				
+				Color fieldColor = ColorCodes.GREY.getColor();
+				controllerSetColor(y, x, fieldColor);
+			}
+		}
+		controller.updateBoard();
+	}
+	
+	public void startGame(int playerX, int playerY) {
+		startGame(20 * playerY + playerX);
+	}
+	
+	public void startGame(int playerStartPosition) {
+		// This being commented requires Main to call prepareGame()
+		// prepareGame();
+		fillBombs(64, playerStartPosition);
+		updateAdjacents();
+	}
+	
 	public void setPlayer(Player player) {this.player = player;}
 	
+	/*
 	public void startGame() {
-		/*
-		 * Visual representation of mineField[y][x] [2][0]:
-		 * 
-		 * [ x value | | \_/ [# # # # #], [# # # # #], [o # # # #], <-- y value [# # # #
-		 * #], [# # # # #] ]
-		 */
 
 		int mineCount = 100;
 
@@ -77,6 +133,7 @@ public class GameHandler {
 
 		//System.out.println(numberOfAdjacentBombs(4, 4));
 	}
+	*/
 	
 	public long playAudio(String resourceName) {
 		// https://stackoverflow.com/questions/26305/how-can-i-play-sound-in-java
