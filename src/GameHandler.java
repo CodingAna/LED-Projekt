@@ -5,14 +5,14 @@ import javax.sound.sampled.Clip;
 import java.lang.Math;
 import ledControl.BoardController;
 
-public class EineWeitereKlasse {
+public class GameHandler {
 
 	private BoardController controller;
 	public Field[][] mineField = new Field[20][20];
 	private Player player;
 	private int[] highlight = new int []{10, 10, 10}; //Highlighting where Player is
 
-	public EineWeitereKlasse(BoardController controller) {
+	public GameHandler(BoardController controller) {
 		this.controller = controller;
 	}
 	
