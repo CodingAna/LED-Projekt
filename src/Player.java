@@ -45,11 +45,9 @@ public class Player {
 				switch(event.getKeyCode())
 				{
 				case KeyEvent.VK_ENTER: // revealing current field
-					if (handler.mineField[x][y].isBomb()) {
-						this.died = true;
-					}
 					if(!handler.mineField[x][y].isRevealed() && !handler.mineField[x][y].isFlagged())
 					{
+						if (handler.mineField[x][y].isBomb()) this.died = true;
 						turns++;
 						if (turns == 1) handler.startGame(x, y);
 						handler.coloring(x, y, 0);
@@ -115,104 +113,115 @@ public class Player {
 				}				
 			}
 		}
-		// The player died and while loop ended
-		long length;
-		length = handler.playAudio("bomb_explosion");
-		
-		// Make a RED / WHITE flashing animation
-		for (int switching=0; switching<6; switching++) {
+		if (died) {
+			// The player died and while loop ended
+			long length;
+			length = handler.playAudio("bomb_explosion");
+			
+			// Make a RED / WHITE flashing animation
+			for (int switching=0; switching<6; switching++) {
+				for (int y=0; y<20; y++) {
+					for (int x=0; x<20; x++) {
+						handler.controllerSetColor(x, y, ((switching % 2 == 0) ? ColorCodes.RED : ColorCodes.WHITE).getColor());
+					}				
+				}
+				controller.updateBoard();
+				controller.sleep(500);
+			}
+			
+			length = (int)(length / 1000) - (500 * 6);
+			if (length > 0) controller.sleep((int)length);
+			length = handler.playAudio("sad_trombone");
+			
+			// Reset board to all BLACK
 			for (int y=0; y<20; y++) {
 				for (int x=0; x<20; x++) {
-					handler.controllerSetColor(x, y, ((switching % 2 == 0) ? ColorCodes.RED : ColorCodes.WHITE).getColor());
+					handler.controllerSetColor(x, y, ColorCodes.BLACK.getColor());
 				}				
 			}
 			controller.updateBoard();
-			controller.sleep(500);
-		}
-		
-		length = (int)(length / 1000) - (500 * 6);
-		if (length > 0) controller.sleep((int)length);
-		length = handler.playAudio("sad_trombone");
-		
-		// Reset board to all BLACK
-		for (int y=0; y<20; y++) {
-			for (int x=0; x<20; x++) {
-				handler.controllerSetColor(x, y, ColorCodes.BLACK.getColor());
-			}				
-		}
-		controller.updateBoard();
-		
-		controller.sleep((int)(length / 1000));
-		handler.playAudio("sad_violin_airhorn");
-		
-		boolean flashing = true;
-		int count = 0;
-		while (true) {
-			// Left Eye
-			for (int y=0; y<2; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+5, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-		
-			// Right Eye
-			for (int y=0; y<2; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+12, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
 			
-			// Mouth Left Lower
-			for (int y=0; y<4; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+3, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			controller.sleep((int)(length / 1000));
+			handler.playAudio("sad_violin_airhorn");
 			
-			// Mouth Left Middle
-			for (int y=0; y<2; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+4, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			boolean flashing = true;
+			int count = 0;
+			while (true) {
+				// Left Eye
+				for (int y=0; y<2; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+5, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
 			
-			// Mouth Middle
-			for (int y=0; y<2; y++)
-				for (int x=0; x<7; x++)
-					handler.controllerSetColor(x+6, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				// Right Eye
+				for (int y=0; y<2; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+12, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				// Mouth Left Lower
+				for (int y=0; y<4; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+3, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				// Mouth Left Middle
+				for (int y=0; y<2; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+4, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				// Mouth Middle
+				for (int y=0; y<2; y++)
+					for (int x=0; x<7; x++)
+						handler.controllerSetColor(x+6, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				// Mouth Right Middle
+				for (int y=0; y<2; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+13, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				// Mouth Right Lower
+				for (int y=0; y<4; y++)
+					for (int x=0; x<2; x++)
+						handler.controllerSetColor(x+14, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+				
+				controller.updateBoard();
+				controller.sleep(840);
+				
+				flashing = !flashing;
+				count++;
+				if (count > 24) break;
+			}
 			
-			// Mouth Right Middle
-			for (int y=0; y<2; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+13, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			flashing = true;
 			
-			// Mouth Right Lower
-			for (int y=0; y<4; y++)
-				for (int x=0; x<2; x++)
-					handler.controllerSetColor(x+14, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
+			handler.playAudio("mlg_airhorn");
+			for (int i=0; i<2; i++) {
+				laughingSmiley(flashing);
+				flashing = !flashing;
+				controller.sleep(700);
+			}
 			
-			controller.updateBoard();
-			controller.sleep(840);
+			handler.playAudio("mlg_triple");
+			for (int i=0; i<7; i++) {
+				laughingSmiley(flashing);
+				flashing = !flashing;
+				controller.sleep(400);
+			}
 			
-			flashing = !flashing;
-			count++;
-			if (count > 24) break;
-		}
-		
-		flashing = true;
-		
-		handler.playAudio("mlg_airhorn");
-		for (int i=0; i<2; i++) {
-			laughingSmiley(flashing);
-			flashing = !flashing;
-			controller.sleep(700);
-		}
-		
-		handler.playAudio("mlg_triple");
-		for (int i=0; i<7; i++) {
-			laughingSmiley(flashing);
-			flashing = !flashing;
-			controller.sleep(400);
-		}
-		
-		handler.playAudio("mlg_cancan");
-		while (true) {
-			laughingSmiley(flashing);
-			flashing = !flashing;
-			controller.sleep(150);
-		}
+			handler.playAudio("mlg_cancan");
+			while (true) {
+				laughingSmiley(flashing);
+				flashing = !flashing;
+				controller.sleep(150);
+			}
+		} // if (died)
+		else if (won) {
+			handler.playAudio("win_fanfare");
+			boolean flashing = false;
+			while (true) {
+				laughingSmiley(flashing);
+				flashing = !flashing;
+				controller.sleep(1000);
+			}
+		} // if (won)
 	}
 	
 	private void laughingSmiley(boolean flashing) {
