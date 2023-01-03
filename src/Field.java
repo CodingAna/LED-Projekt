@@ -7,19 +7,23 @@ public class Field {
 	private boolean isBomb;
 	private boolean isFlagged;
 	private boolean revealed;
+	private GameHandler handler;
 	
-	public Field(int x, int y, boolean isBomb) {
+	public Field(int x, int y, boolean isBomb, GameHandler handler) {
 		this.x = x;
 		this.y = y;
 		this.isBomb = isBomb;
 		revealed = false;
+		this.handler = handler;
 	}
 	
 	// Set Field to be revealed and return if the player died to the bomb
 	public void reveal() {
 		// Return true if isFlagged to prevent missclicks?
-		if(!isFlagged && !revealed)
+		if(!isFlagged && !revealed) {
 			revealed = true;
+			handler.uncoveredFields++;
+		}
 	}
 	
 	// Getter

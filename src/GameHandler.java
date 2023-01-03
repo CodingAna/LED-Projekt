@@ -11,6 +11,7 @@ public class GameHandler {
 	public Field[][] mineField = new Field[20][20];
 	private Player player;
 	private int[] highlight = new int []{10, 10, 10}; //Highlighting where Player is
+	public int uncoveredFields;
 
 	public GameHandler(BoardController controller) {
 		this.controller = controller;
@@ -20,7 +21,7 @@ public class GameHandler {
 		// Generate empty (no bombs) 20x20 field
 		for (int y = 0; y < 20; y++)
 			for (int x = 0; x < 20; x++) {
-				mineField[y][x] = new Field(x, y, false);
+				mineField[y][x] = new Field(x, y, false, this);
 				Color fieldColor = ColorCodes.GREY.getColor();
 				controllerSetColor(y, x, fieldColor);
 			}
@@ -47,7 +48,7 @@ public class GameHandler {
 			// pos = y * 20 + x
 
 			// Overwrite field at given x and y with a bomb field
-			mineField[y][x] = new Field(x, y, true);
+			mineField[y][x] = new Field(x, y, true, this);
 		}
 	}
 	
@@ -227,7 +228,8 @@ public class GameHandler {
 		controller.addColor(x, y, highlight);
 		controller.addColor(oldX, oldY, -highlight[0], -highlight[1], -highlight[2]);
 		controller.updateBoard();
-		// Playermovement anzeigen aufm Board
+		System.out.println(uncoveredFields);
+		// Shows playermovement on board
 	}
 
 	public void coloring(int x, int y, int count) {
