@@ -53,6 +53,7 @@ public class Player {
 						turns++;
 						if (turns == 1) handler.startGame(x, y);
 						handler.coloring(x, y, 0);
+						won = handler.checkWin();
 					}
 					break;
 				case KeyEvent.VK_SPACE: //setting flag on current field
