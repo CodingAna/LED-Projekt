@@ -19,7 +19,8 @@ public class PhasmaMain {
 		controller.setBackgroundColor(220/2, 220/2, 220/2);
 		controller.resetColors();
 		
-		handler.startGame();
+		handler.prepareGame();
+		// handler.startGame();
 		player.startListening();
 		
 	}
