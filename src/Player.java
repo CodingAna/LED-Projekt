@@ -14,6 +14,7 @@ public class Player {
 
 	private boolean moved;
 	private boolean died;
+	private boolean won;
 	
 	private int x = 0;
 	private int y = 0;
@@ -29,6 +30,7 @@ public class Player {
 		this.listener = new BoardKeyListener(buffer);
 		this.moved = false;
 		this.died = false;
+		this.won = false;
 	}
 	
 	public int getX() {return x;}
@@ -36,7 +38,7 @@ public class Player {
 	
 	public void startListening()
 	{
-		while (!died) {
+		while (!died && !won) {
 			event = buffer.pop();
 			if (event != null && event.getID() == 401) //event.getID() = 401 for button presses
 			{
