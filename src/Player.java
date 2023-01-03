@@ -19,6 +19,7 @@ public class Player {
 	private int y = 0;
 	private int oldX = 0;
 	private int oldY = 0;
+	private int turns;
 	
 	public Player(BoardController controller, GameHandler handler) 
 	{
@@ -47,6 +48,7 @@ public class Player {
 					}
 					if(!handler.mineField[x][y].isRevealed() && !handler.mineField[x][y].isFlagged())
 					{
+						if (turns == 1) handler.startGame(x, y);
 						handler.coloring(x, y, 0);
 					}
 					break;
