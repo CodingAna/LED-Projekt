@@ -10,7 +10,7 @@ public class Player {
 	private KeyBuffer buffer;
 	private KeyEvent event;
 	private BoardKeyListener listener;
-	private EineWeitereKlasse ewk;
+	private GameHandler ewk;
 
 	private boolean moved;
 	private boolean died;
@@ -20,7 +20,7 @@ public class Player {
 	private int oldX = 0;
 	private int oldY = 0;
 	
-	public Player(BoardController controller, EineWeitereKlasse ewk) 
+	public Player(BoardController controller, GameHandler ewk) 
 	{
 		this.ewk = ewk;
 		this.controller = controller;

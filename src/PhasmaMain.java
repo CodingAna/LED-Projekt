@@ -12,7 +12,7 @@ public class PhasmaMain {
 		BoardController controller = BoardController.getBoardController();
 		
 		//Das Objekt in der anderen Klasse wird erstellt
-		EineWeitereKlasse ewk = new EineWeitereKlasse(controller);
+		GameHandler ewk = new GameHandler(controller);
 		Player player = new Player(controller, ewk);
 		ewk.setPlayer(player);
 
