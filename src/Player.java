@@ -119,7 +119,7 @@ public class Player {
 			length = handler.playAudio("bomb_explosion");
 			
 			// Make a RED / WHITE flashing animation
-			for (int switching=0; switching<6; switching++) {
+			for (int switching=0; switching<3; switching++) {
 				for (int y=0; y<20; y++) {
 					for (int x=0; x<20; x++) {
 						handler.controllerSetColor(x, y, ((switching % 2 == 0) ? ColorCodes.RED : ColorCodes.WHITE).getColor());
@@ -131,7 +131,6 @@ public class Player {
 			
 			length = (int)(length / 1000) - (500 * 6);
 			if (length > 0) controller.sleep((int)length);
-			length = handler.playAudio("sad_trombone");
 			
 			// Reset board to all BLACK
 			for (int y=0; y<20; y++) {
@@ -140,78 +139,8 @@ public class Player {
 				}				
 			}
 			controller.updateBoard();
+			handler.playAudio("sad_violin");
 			
-			controller.sleep((int)(length / 1000));
-			handler.playAudio("sad_violin_airhorn");
-			
-			boolean flashing = true;
-			int count = 0;
-			while (true) {
-				// Left Eye
-				for (int y=0; y<2; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+5, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-			
-				// Right Eye
-				for (int y=0; y<2; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+12, y+4, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				// Mouth Left Lower
-				for (int y=0; y<4; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+3, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				// Mouth Left Middle
-				for (int y=0; y<2; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+4, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				// Mouth Middle
-				for (int y=0; y<2; y++)
-					for (int x=0; x<7; x++)
-						handler.controllerSetColor(x+6, y+11, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				// Mouth Right Middle
-				for (int y=0; y<2; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+13, y+12, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				// Mouth Right Lower
-				for (int y=0; y<4; y++)
-					for (int x=0; x<2; x++)
-						handler.controllerSetColor(x+14, y+13, (flashing ? ColorCodes.WHITE : ColorCodes.BLACK).getColor());
-				
-				controller.updateBoard();
-				controller.sleep(840);
-				
-				flashing = !flashing;
-				count++;
-				if (count > 24) break;
-			}
-			
-			flashing = true;
-			
-			handler.playAudio("mlg_airhorn");
-			for (int i=0; i<2; i++) {
-				laughingSmiley(flashing);
-				flashing = !flashing;
-				controller.sleep(700);
-			}
-			
-			handler.playAudio("mlg_triple");
-			for (int i=0; i<7; i++) {
-				laughingSmiley(flashing);
-				flashing = !flashing;
-				controller.sleep(400);
-			}
-			
-			handler.playAudio("mlg_cancan");
-			while (true) {
-				laughingSmiley(flashing);
-				flashing = !flashing;
-				controller.sleep(150);
-			}
 		} // if (died)
 		else if (won) {
 			handler.playAudio("win_fanfare");
